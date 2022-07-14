@@ -1,45 +1,47 @@
 package com.skillsoft.datastructures;
 
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.Stack;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
-    public static <T> void breadthFirst(Node<T> root) {
+    public static <T> void inOrder(Node<T> root) {
+
         if (root == null) {
             return;
         }
-        Queue<Pair<Node<T>, Integer>> queue = new LinkedList<>();
 
-        int level = 0;
-        queue.add(new Pair<>(root, level));
-        while (!queue.isEmpty()) {
+        Set<Node<T>> visitedNodes = new HashSet<>();
+        Stack<Node<T>> stack = new Stack<>();
+        stack.push(root);
 
-            Pair<Node<T>, Integer> pair = queue.remove();
-            // Moved to below with a small improvement.
-//            System.out.print(pair + "->");
+        while (!stack.isEmpty()) {
+            Node<T> top = stack.pop();
 
-            level = pair.getValue() + 1;
+            if (top.getLeftChild() == null && top.getRightChild() == null) {
+                System.out.print(top + "->");
+            } else if (visitedNodes.contains(top)) {
+                System.out.print(top + "->");
+            } else {
+                visitedNodes.add(top);
 
-            Node<T> leftChild = pair.getKey().getLeftChild();
-            if (leftChild != null) {
-                queue.add(new Pair<>(leftChild, level));
+                if (top.getRightChild() != null) {
+                    stack.push(top.getRightChild());
+                }
+
+                stack.push(top);
+
+                if (top.getLeftChild() != null) {
+                    stack.push(top.getLeftChild());
+                }
             }
-
-            Node<T> rightChild = pair.getKey().getRightChild();
-            if (rightChild != null) {
-                queue.add(new Pair<>(rightChild, level));
-            }
-
-            // Not standard but i did not like the -> would be rendered at the end
-            System.out.print(pair + (leftChild != null || rightChild != null ? "->" : ""));
-
         }
     }
 
     public static void main(String[] args) {
 
-        Node<String> a = new Node<>("a");
+        Node<String> a = new Node<>("Alice");
         Node<String> b = new Node<>("Bob");
         Node<String> c = new Node<>("Charles");
         Node<String> d = new Node<>("Dora");
@@ -47,30 +49,27 @@ public class Main {
         Node<String> f = new Node<>("Fiona");
         Node<String> g = new Node<>("Greg");
         Node<String> h = new Node<>("Harry");
+        Node<String> i = new Node<>("Irene");
 
         a.setLeftChild(b);
         a.setRightChild(c);
 
         System.out.println("\n");
-        breadthFirst(a);
+        inOrder(a);
 
-        b.setRightChild(d);
+        b.setLeftChild(d);
+        b.setRightChild(e);
 
-        System.out.println("\n");
-        breadthFirst(a);
-
-        c.setRightChild(e);
-
-        System.out.println("\n");
-        breadthFirst(a);
-
-
-        d.setRightChild(f);
-        d.setRightChild(h);
+        c.setLeftChild(f);
+        c.setRightChild(g);
 
         System.out.println("\n");
+        inOrder(a);
 
-        e.setRightChild(g);
-        breadthFirst(a);
+        d.setLeftChild(h);
+        d.setRightChild(i);
+
+        System.out.println("\n");
+        inOrder(a);
     }
 }
