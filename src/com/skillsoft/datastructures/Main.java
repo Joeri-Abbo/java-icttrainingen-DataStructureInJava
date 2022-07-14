@@ -9,63 +9,68 @@ public class Main {
         if (root == null) {
             return;
         }
-        Queue<Node<T>> queue = new LinkedList<>();
+        Queue<Pair<Node<T>, Integer>> queue = new LinkedList<>();
 
-        queue.add(root);
+        int level = 0;
+        queue.add(new Pair<>(root, level));
         while (!queue.isEmpty()) {
-            Node<T> node = queue.remove();
-            System.out.print(node + "->");
 
-            if (node.getLeftChild() != null) {
-                queue.add(node.getLeftChild());
+            Pair<Node<T>, Integer> pair = queue.remove();
+            // Moved to below with a small improvement.
+//            System.out.print(pair + "->");
+
+            level = pair.getValue() + 1;
+
+            Node<T> leftChild = pair.getKey().getLeftChild();
+            if (leftChild != null) {
+                queue.add(new Pair<>(leftChild, level));
             }
 
-            if (node.getRightChild() != null) {
-                queue.add(node.getRightChild());
+            Node<T> rightChild = pair.getKey().getRightChild();
+            if (rightChild != null) {
+                queue.add(new Pair<>(rightChild, level));
             }
+
+            // Not standard but i did not like the -> would be rendered at the end
+            System.out.print(pair + (leftChild != null || rightChild != null ? "->" : ""));
+
         }
     }
 
     public static void main(String[] args) {
 
-        Node<Character> a = new Node<>('A');
-        Node<Character> b = new Node<>('B');
-        Node<Character> c = new Node<>('C');
-        Node<Character> d = new Node<>('D');
-        Node<Character> e = new Node<>('E');
-        Node<Character> f = new Node<>('F');
-        Node<Character> g = new Node<>('G');
-        Node<Character> h = new Node<>('H');
+        Node<String> a = new Node<>("a");
+        Node<String> b = new Node<>("Bob");
+        Node<String> c = new Node<>("Charles");
+        Node<String> d = new Node<>("Dora");
+        Node<String> e = new Node<>("Elsa");
+        Node<String> f = new Node<>("Fiona");
+        Node<String> g = new Node<>("Greg");
+        Node<String> h = new Node<>("Harry");
+
         a.setLeftChild(b);
         a.setRightChild(c);
 
         System.out.println("\n");
         breadthFirst(a);
 
-        c.setLeftChild(d);
+        b.setRightChild(d);
+
+        System.out.println("\n");
+        breadthFirst(a);
+
         c.setRightChild(e);
 
         System.out.println("\n");
         breadthFirst(a);
 
-        d.setLeftChild(f);
+
+        d.setRightChild(f);
         d.setRightChild(h);
 
         System.out.println("\n");
-        breadthFirst(a);
 
         e.setRightChild(g);
-
-        System.out.println("\n");
         breadthFirst(a);
-        //
-//        System.out.println(a);
-//        System.out.println(b);
-//        System.out.println(c);
-//        System.out.println(d);
-//        System.out.println(e);
-//        System.out.println(f);
-//        System.out.println(g);
-//        System.out.println(h);
     }
 }
