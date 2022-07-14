@@ -31,8 +31,6 @@ public class Node<T> {
 
     @Override
     public String toString() {
-        return "\nData: " + data.toString() +
-                " Left child: " + ((leftChild == null) ? "" : leftChild.getData()) +
-                " Right child: " + ((rightChild == null) ? "" : rightChild.getData());
+        return data.toString();
     }
 }
