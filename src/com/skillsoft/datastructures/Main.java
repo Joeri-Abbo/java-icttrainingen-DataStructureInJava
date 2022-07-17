@@ -12,31 +12,12 @@ public class Main {
             return;
         }
 
-        Set<Node<T>> visitedNodes = new HashSet<>();
-        Stack<Node<T>> stack = new Stack<>();
-        stack.push(root);
+        inOrder(root.getLeftChild());
 
-        while (!stack.isEmpty()) {
-            Node<T> top = stack.pop();
+        System.out.print(root.getData() + " -> ");
 
-            if (top.getLeftChild() == null && top.getRightChild() == null) {
-                System.out.print(top + "->");
-            } else if (visitedNodes.contains(top)) {
-                System.out.print(top + "->");
-            } else {
-                visitedNodes.add(top);
+        inOrder(root.getRightChild());
 
-                if (top.getRightChild() != null) {
-                    stack.push(top.getRightChild());
-                }
-
-                stack.push(top);
-
-                if (top.getLeftChild() != null) {
-                    stack.push(top.getLeftChild());
-                }
-            }
-        }
     }
 
     public static void main(String[] args) {
@@ -58,18 +39,14 @@ public class Main {
         inOrder(a);
 
         b.setLeftChild(d);
-        b.setRightChild(e);
-
-        c.setLeftChild(f);
-        c.setRightChild(g);
 
         System.out.println("\n");
         inOrder(a);
 
-        d.setLeftChild(h);
-        d.setRightChild(i);
+        c.setRightChild(e);
 
         System.out.println("\n");
         inOrder(a);
+
     }
 }
