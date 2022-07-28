@@ -1,86 +1,65 @@
 package com.skillsoft.datastructures;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Main {
 
-    public static <T> void mirror(Node<T> root) {
+    public static <T> Boolean isFull(Node<T> root) {
 
         if (root == null) {
-            return ;
+            return true;
         }
 
-        Node<T> temporary = root.getLeftChild();
-
-        root.setLeftChild(root.getRightChild());
-        root.setRightChild(temporary);
-
-        mirror(root.getLeftChild());
-        mirror(root.getRightChild());
-    }
-
-    public static <T> void breadthFirst(Node<T> root){
-
-        if (root == null) {
-            return ;
+        if (root.getLeftChild() == null && root.getRightChild() == null) {
+            return true;
         }
-        Queue<Pair<Node<T>, Integer>> queue = new LinkedList<>();
-
-        int level = 0;
-
-        queue.add(new Pair<>(root,level));
-
-        while (!queue.isEmpty()) {
-
-            Pair<Node<T>, Integer> pair = queue.remove();
-            System.out.println(pair + "->");
-
-            level = pair.getValue() + 1;
-
-            Node<T> leftChild = pair.getKey().getLeftChild();
-            if (leftChild != null) {
-                queue.add(new Pair<>(leftChild, level));
-            }
-
-            Node<T> rightChild = pair.getKey().getRightChild();
-            if (rightChild != null) {
-                queue.add(new Pair<>(rightChild, level));
-            }
-
+        if (root.getLeftChild() != null && root.getRightChild() != null) {
+            return isFull(root.getLeftChild()) && isFull(root.getRightChild());
         }
+
+        return false;
     }
 
     public static void main(String[] args) {
 
-        Node<Integer> one = new Node<>(1);
-        Node<Integer> two = new Node<>(2);
-        Node<Integer> three = new Node<>(3);
-        Node<Integer> four = new Node<>(4);
-        Node<Integer> five = new Node<>(5);
-        Node<Integer> six = new Node<>(6);
-        Node<Integer> seven = new Node<>(7);
-        Node<Integer> eight = new Node<>(8);
+        Node<String> a = new Node<>("Alice");
+        Node<String> b = new Node<>("Bob");
+        Node<String> c = new Node<>("Charles");
+        Node<String> d = new Node<>("Dora");
+        Node<String> e = new Node<>("Elsa");
+        Node<String> f = new Node<>("Fiona");
+        Node<String> g = new Node<>("Greg");
+        Node<String> h = new Node<>("Harry");
+        Node<String> i = new Node<>("Irene");
+        Node<String> j = new Node<>("Janet");
 
-        one.setLeftChild(two);
-        one.setRightChild(three);
 
-        three.setLeftChild(seven);
-        three.setRightChild(six);
-
-        seven.setLeftChild(eight);
-
-        six.setLeftChild(five);
-        six.setRightChild(four);
+        a.setLeftChild(b);
+        a.setRightChild(c);
 
         System.out.println();
-        System.out.println("Original: ");
-        breadthFirst(one);
+        System.out.println("Tree with 3 nodes isFull?: " + isFull(a));
+
+        c.setLeftChild(d);
+        c.setRightChild(e);
 
         System.out.println();
+        System.out.println("Tree with 5 nodes isFull?: " + isFull(a));
+
+        d.setLeftChild(f);
+        d.setRightChild(h);
+
         System.out.println();
-        System.out.println("Mirror: ");
-        mirror(one);
-        breadthFirst(one);
+        System.out.println("Tree with 7 nodes isFull?: " + isFull(a));
+
+        b.setLeftChild(i);
+        b.setRightChild(j);
+
+        System.out.println();
+        System.out.println("Tree with 9 nodes isFull?: " + isFull(a));
+
+
+        b.setRightChild(null);
+
+        System.out.println();
+        System.out.println("Tree with 8 nodes isFull?: " + isFull(a));
     }
 }
