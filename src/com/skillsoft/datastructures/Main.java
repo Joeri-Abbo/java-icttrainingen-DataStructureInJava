@@ -1,23 +1,28 @@
 package com.skillsoft.datastructures;
 
-import java.util.Stack;
-import java.util.HashSet;
-import java.util.Set;
-
 public class Main {
 
-    public static <T> void inOrder(Node<T> root) {
+    public static <T> int maxDepth(Node<T> root) {
 
         if (root == null) {
-            return;
+            return 0;
         }
 
-        inOrder(root.getLeftChild());
+        if (root.getLeftChild() == null && root.getRightChild() == null) {
+            System.out.println(root + " maxDepth : " + 0);
+            return 0;
+        }
 
-        System.out.print(root.getData() + " -> ");
+        int leftMaxDepth = maxDepth(root.getLeftChild());
+        int rightMaxDepth = maxDepth(root.getRightChild());
 
-        inOrder(root.getRightChild());
+        int maxDepth = 1 + Math.max(leftMaxDepth, rightMaxDepth);
 
+        System.out.println(root + "" +
+                " left : maxDepth " + leftMaxDepth +
+                " right : maxDepth" + rightMaxDepth +
+                "current maxDepth : " + maxDepth);
+        return maxDepth;
     }
 
     public static void main(String[] args) {
@@ -35,18 +40,23 @@ public class Main {
         a.setLeftChild(b);
         a.setRightChild(c);
 
-        System.out.println("\n");
-        inOrder(a);
+        System.out.println();
+        System.out.println("Tree with 3 nodes maxDepth : " + maxDepth(a));
 
         b.setLeftChild(d);
+        b.setRightChild(e);
 
-        System.out.println("\n");
-        inOrder(a);
+        System.out.println();
+        System.out.println("Tree with 5 nodes maxDepth : " + maxDepth(a));
 
-        c.setRightChild(e);
+        e.setLeftChild(f);
+        e.setRightChild(g);
 
-        System.out.println("\n");
-        inOrder(a);
+        f.setRightChild(h);
+        h.setRightChild(i);
+
+        System.out.println();
+        System.out.println("Tree with 9 nodes maxDepth : " + maxDepth(a));
 
     }
 }
