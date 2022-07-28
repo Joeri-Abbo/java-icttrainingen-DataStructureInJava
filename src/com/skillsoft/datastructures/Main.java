@@ -2,40 +2,27 @@ package com.skillsoft.datastructures;
 
 public class Main {
 
-    public static <T> int leftDepth(Node<T> root) {
-        int leftDepth = 0;
-
-        Node<T> node = root;
-
-        while(node != null){
-
-            leftDepth++;
-
-            node = node.getLeftChild();
+    public static <T> int countNodes(Node<T> root) {
+        if (root == null) {
+            return 0;
         }
-
-        return leftDepth - 1;
+        return 1 + countNodes(root.getLeftChild()) +
+                countNodes(root.getRightChild());
     }
-    public static <T> Boolean isPerfectRecursive(Node<T> root, int leftDepth, int currentLevel) {
+    public static <T> Boolean isComplete(Node<T> root, int currentNodeIndex, int totalNodes) {
 
         if (root == null) {
             return true;
         }
 
-        if (root.getLeftChild() == null && root.getRightChild() == null) {
-            return currentLevel == leftDepth;
-        }
-
-        if (root.getLeftChild() == null || root.getRightChild() == null) {
+        if (currentNodeIndex >= totalNodes) {
             return false;
         }
 
-        return isPerfectRecursive(root.getLeftChild(), leftDepth, currentLevel + 1) &&
-                isPerfectRecursive(root.getRightChild(), leftDepth, currentLevel + 1);
-    }
-
-    public static <T> Boolean isPerfect(Node<T> root) {
-        return isPerfectRecursive(root, leftDepth(root), 0);
+        int leftChildIndex = 2 * currentNodeIndex + 1;
+        int rightChildIndex = 2 * currentNodeIndex + 2;
+        return isComplete(root.getLeftChild(), leftChildIndex, totalNodes) &&
+                isComplete(root.getRightChild(), rightChildIndex, totalNodes);
     }
 
     public static void main(String[] args) {
@@ -56,25 +43,51 @@ public class Main {
         a.setRightChild(c);
 
         System.out.println();
-        System.out.println("Tree with 3 nodes isPerfect?: " + isPerfect(a));
+        System.out.println("Tree with 3 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
 
-        b.setLeftChild(g);
-        b.setRightChild(h);
+        b.setLeftChild(f);
+        b.setRightChild(g);
 
-        c.setLeftChild(e);
-        c.setRightChild(f);
+        c.setLeftChild(d);
+        c.setRightChild(e);
 
         System.out.println();
-        System.out.println("Tree with 7 nodes isPerfect?: " + isPerfect(a));
+        System.out.println("Tree with 7 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
 
+        f.setLeftChild(h);
+
+        System.out.println();
+        System.out.println("Tree with 8 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
+
+        f.setLeftChild(i);
+
+        System.out.println();
+        System.out.println("Tree with 9 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
+
+
+        System.out.println();
+        System.out.println("Cleaning tree");
+        a.setLeftChild(null);
+        a.setRightChild(null);
         b.setLeftChild(null);
         b.setRightChild(null);
+        c.setLeftChild(null);
+        c.setRightChild(null);
+        f.setLeftChild(null);
+        f.setLeftChild(null);
 
-        System.out.println();
-        System.out.println("Tree with 5 nodes isPerfect?: " + isPerfect(a));
+        a.setLeftChild(b);
+        a.setLeftChild(c);
 
         b.setLeftChild(g);
-        System.out.println("Tree with 6 nodes isPerfect?: " + isPerfect(a));
+
+        c.setLeftChild(d);
+        c.setLeftChild(e);
+
+        System.out.println();
+        System.out.println("Tree with 6 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
 
     }
+
+
 }
