@@ -1,27 +1,54 @@
 package com.skillsoft.datastructures;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Main {
 
-    public static <T> boolean hasPathSum(Node<T> root, int currentSum) {
+    public static <T> void mirror(Node<T> root) {
 
         if (root == null) {
-            return false;
+            return ;
         }
 
-        if (root.getLeftChild() == null && root.getRightChild() == null) {
-            return currentSum == root.getData();
+        Node<T> temporary = root.getLeftChild();
+
+        root.setLeftChild(root.getRightChild());
+        root.setRightChild(temporary);
+
+        mirror(root.getLeftChild());
+        mirror(root.getRightChild());
+    }
+
+    public static <T> void breadthFirst(Node<T> root){
+
+        if (root == null) {
+            return ;
         }
+        Queue<Pair<Node<T>, Integer>> queue = new LinkedList<>();
 
-        boolean hasPathSumLeft = hasPathSum(root.getLeftChild(), currentSum - root.getData());
-        boolean hasPathSumRight = hasPathSum(root.getRightChild(), currentSum - root.getData());
+        int level = 0;
 
-        boolean hasPathSum = hasPathSumLeft || hasPathSumRight;
+        queue.add(new Pair<>(root,level));
 
-        System.out.println(root + "" +
-                " hasPathSumLeft : " + hasPathSumLeft +
-                " hasPathSumRight : " + hasPathSumRight +
-                " hasPathSum : " + hasPathSum);
-        return hasPathSum;
+        while (!queue.isEmpty()) {
+
+            Pair<Node<T>, Integer> pair = queue.remove();
+            System.out.println(pair + "->");
+
+            level = pair.getValue() + 1;
+
+            Node<T> leftChild = pair.getKey().getLeftChild();
+            if (leftChild != null) {
+                queue.add(new Pair<>(leftChild, level));
+            }
+
+            Node<T> rightChild = pair.getKey().getRightChild();
+            if (rightChild != null) {
+                queue.add(new Pair<>(rightChild, level));
+            }
+
+        }
     }
 
     public static void main(String[] args) {
@@ -44,17 +71,16 @@ public class Main {
         seven.setLeftChild(eight);
 
         six.setLeftChild(five);
-        six.setLeftChild(four);
+        six.setRightChild(four);
 
         System.out.println();
-        System.out.println("HasPathSum 3: " + hasPathSum(one, 3));
+        System.out.println("Original: ");
+        breadthFirst(one);
 
         System.out.println();
-        System.out.println("HasPathSum 25: " + hasPathSum(one, 25));
-
         System.out.println();
-        System.out.println("HasPathSum 19: " + hasPathSum(one, 19));
-
-
+        System.out.println("Mirror: ");
+        mirror(one);
+        breadthFirst(one);
     }
 }
