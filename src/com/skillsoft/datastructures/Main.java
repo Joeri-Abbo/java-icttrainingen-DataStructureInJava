@@ -2,61 +2,59 @@ package com.skillsoft.datastructures;
 
 public class Main {
 
-    public static <T> int maxDepth(Node<T> root) {
+    public static <T> boolean hasPathSum(Node<T> root, int currentSum) {
 
         if (root == null) {
-            return 0;
+            return false;
         }
 
         if (root.getLeftChild() == null && root.getRightChild() == null) {
-            System.out.println(root + " maxDepth : " + 0);
-            return 0;
+            return currentSum == root.getData();
         }
 
-        int leftMaxDepth = maxDepth(root.getLeftChild());
-        int rightMaxDepth = maxDepth(root.getRightChild());
+        boolean hasPathSumLeft = hasPathSum(root.getLeftChild(), currentSum - root.getData());
+        boolean hasPathSumRight = hasPathSum(root.getRightChild(), currentSum - root.getData());
 
-        int maxDepth = 1 + Math.max(leftMaxDepth, rightMaxDepth);
+        boolean hasPathSum = hasPathSumLeft || hasPathSumRight;
 
         System.out.println(root + "" +
-                " left : maxDepth " + leftMaxDepth +
-                " right : maxDepth" + rightMaxDepth +
-                "current maxDepth : " + maxDepth);
-        return maxDepth;
+                " hasPathSumLeft : " + hasPathSumLeft +
+                " hasPathSumRight : " + hasPathSumRight +
+                " hasPathSum : " + hasPathSum);
+        return hasPathSum;
     }
 
     public static void main(String[] args) {
 
-        Node<String> a = new Node<>("Alice");
-        Node<String> b = new Node<>("Bob");
-        Node<String> c = new Node<>("Charles");
-        Node<String> d = new Node<>("Dora");
-        Node<String> e = new Node<>("Elsa");
-        Node<String> f = new Node<>("Fiona");
-        Node<String> g = new Node<>("Greg");
-        Node<String> h = new Node<>("Harry");
-        Node<String> i = new Node<>("Irene");
+        Node<Integer> one = new Node<>(1);
+        Node<Integer> two = new Node<>(2);
+        Node<Integer> three = new Node<>(3);
+        Node<Integer> four = new Node<>(4);
+        Node<Integer> five = new Node<>(5);
+        Node<Integer> six = new Node<>(6);
+        Node<Integer> seven = new Node<>(7);
+        Node<Integer> eight = new Node<>(8);
 
-        a.setLeftChild(b);
-        a.setRightChild(c);
+        one.setLeftChild(two);
+        one.setRightChild(three);
 
-        System.out.println();
-        System.out.println("Tree with 3 nodes maxDepth : " + maxDepth(a));
+        three.setLeftChild(seven);
+        three.setRightChild(six);
 
-        b.setLeftChild(d);
-        b.setRightChild(e);
+        seven.setLeftChild(eight);
 
-        System.out.println();
-        System.out.println("Tree with 5 nodes maxDepth : " + maxDepth(a));
-
-        e.setLeftChild(f);
-        e.setRightChild(g);
-
-        f.setRightChild(h);
-        h.setRightChild(i);
+        six.setLeftChild(five);
+        six.setLeftChild(four);
 
         System.out.println();
-        System.out.println("Tree with 9 nodes maxDepth : " + maxDepth(a));
+        System.out.println("HasPathSum 3: " + hasPathSum(one, 3));
+
+        System.out.println();
+        System.out.println("HasPathSum 25: " + hasPathSum(one, 25));
+
+        System.out.println();
+        System.out.println("HasPathSum 19: " + hasPathSum(one, 19));
+
 
     }
 }
