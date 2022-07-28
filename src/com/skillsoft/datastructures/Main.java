@@ -1,28 +1,30 @@
 package com.skillsoft.datastructures;
 
+import java.util.Map;
+import java.util.HashMap;
 public class Main {
 
-    public static <T> int countNodes(Node<T> root) {
-        if (root == null) {
-            return 0;
-        }
-        return 1 + countNodes(root.getLeftChild()) +
-                countNodes(root.getRightChild());
-    }
-    public static <T> Boolean isComplete(Node<T> root, int currentNodeIndex, int totalNodes) {
+    public static <T> Boolean isBalanced(Node<T> root,
+            Map<Node<T>, Integer> nodeHeightMap) {
 
         if (root == null) {
             return true;
         }
 
-        if (currentNodeIndex >= totalNodes) {
-            return false;
+        boolean isLeftBalanced = isBalanced(root.getLeftChild(), nodeHeightMap);
+        boolean isRightBalanced = isBalanced(root.getRightChild(), nodeHeightMap);
+
+        int leftHeight = nodeHeightMap.getOrDefault(root.getLeftChild(), 0);
+        int rightHeight = nodeHeightMap.getOrDefault(root.getRightChild(), 0);
+
+
+        nodeHeightMap.put(root, Math.max(leftHeight, rightHeight) + 1);
+
+        if (Math.abs(leftHeight - rightHeight) <= 1) {
+            return isLeftBalanced && isRightBalanced;
         }
 
-        int leftChildIndex = 2 * currentNodeIndex + 1;
-        int rightChildIndex = 2 * currentNodeIndex + 2;
-        return isComplete(root.getLeftChild(), leftChildIndex, totalNodes) &&
-                isComplete(root.getRightChild(), rightChildIndex, totalNodes);
+        return false;
     }
 
     public static void main(String[] args) {
@@ -43,49 +45,20 @@ public class Main {
         a.setRightChild(c);
 
         System.out.println();
-        System.out.println("Tree with 3 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
+        System.out.println("Tree with 3 nodes isComplete?: " +
+                isBalanced(a, new HashMap<Node<String>,Integer>()));
 
         b.setLeftChild(f);
-        b.setRightChild(g);
-
-        c.setLeftChild(d);
-        c.setRightChild(e);
-
-        System.out.println();
-        System.out.println("Tree with 7 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
-
         f.setLeftChild(h);
-
-        System.out.println();
-        System.out.println("Tree with 8 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
-
-        f.setLeftChild(i);
-
-        System.out.println();
-        System.out.println("Tree with 9 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
-
-
-        System.out.println();
-        System.out.println("Cleaning tree");
-        a.setLeftChild(null);
-        a.setRightChild(null);
-        b.setLeftChild(null);
-        b.setRightChild(null);
-        c.setLeftChild(null);
-        c.setRightChild(null);
-        f.setLeftChild(null);
-        f.setLeftChild(null);
-
-        a.setLeftChild(b);
-        a.setLeftChild(c);
-
-        b.setLeftChild(g);
 
         c.setLeftChild(d);
         c.setLeftChild(e);
 
+        e.setLeftChild(i);
+
         System.out.println();
-        System.out.println("Tree with 6 nodes isComplete?: " + isComplete(a,0, countNodes(a)));
+        System.out.println("Tree with 8 nodes isComplete?: " +
+                isBalanced(a, new HashMap<Node<String>,Integer>()));
 
     }
 
