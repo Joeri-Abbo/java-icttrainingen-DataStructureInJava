@@ -52,6 +52,26 @@ public class Main {
         }
     }
 
+    public static Node<Integer> lookup(Node<Integer> root, int data) {
+
+        if (root == null) {
+            return null;
+        }
+
+        if (data == root.getData()) {
+            return root;
+        }
+
+        if (data <= root.getData()) {
+            System.out.println(data + " <= " + root.getData() + " looking in the left subtree");
+            return lookup(root.getLeftChild(), data);
+        } else {
+            System.out.println(data + "  > " + root.getData() + " looking in the right subtree");
+            return lookup(root.getRightChild(), data);
+        }
+    }
+
+
     public static <T> void inOrder(Node<T> root) {
 
         if (root == null) {
@@ -65,22 +85,15 @@ public class Main {
         inOrder(root.getRightChild());
 
     }
+
     public static void main(String[] args) {
 
         Node<Integer> eight = new Node<>(8);
 
         insert(eight, 3);
         insert(eight, 10);
-
-        System.out.println();
-        breadthFirst(eight);
-
         insert(eight, 1);
         insert(eight, 14);
-
-        System.out.println();
-        breadthFirst(eight);
-
         insert(eight, 6);
         insert(eight, 4);
         insert(eight, 7);
@@ -89,22 +102,14 @@ public class Main {
         System.out.println();
         breadthFirst(eight);
 
-
         System.out.println();
         System.out.println("In order");
         inOrder(eight);
 
-        insert(eight, 2);
         System.out.println();
-        breadthFirst(eight);
+        System.out.println(lookup(eight, 4));
 
-        insert(eight, 12);
         System.out.println();
-        breadthFirst(eight);
-
-
-
+        System.out.println(lookup(eight, 15));
     }
-
-
 }
