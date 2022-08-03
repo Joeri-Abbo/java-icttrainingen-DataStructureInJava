@@ -258,6 +258,21 @@ public class Main {
         return maxValue;
     }
 
+    public static void printRange(Node<Integer> root, int low, int high) {
+        if (root == null) {
+            return;
+        }
+        if (low <= root.getData()) {
+            printRange(root.getLeftChild(), low, high);
+        }
+        if (low <= root.getData() && root.getData() <= high) {
+            System.out.println(root.getData());
+        }
+        if (high > root.getData()) {
+            printRange(root.getRightChild(), low, high);
+        }
+    }
+
     public static void main(String[] args) {
 
         Node<Integer> eight = new Node<>(8);
@@ -270,23 +285,24 @@ public class Main {
         insert(eight, 4);
         insert(eight, 7);
         insert(eight, 13);
-
-        System.out.println("Minimum value " + minimumValue(eight));
-        System.out.println("Maximum value " + maximumValue(eight));
+        insert(eight, -10);
+        insert(eight, 19);
+        insert(eight, 22);
 
         System.out.println();
         System.out.println("In order");
         inOrder(eight);
 
         System.out.println();
-        insert(eight, -10);
-        System.out.println("Minimum value " + minimumValue(eight));
-        System.out.println("Maximum value " + maximumValue(eight));
+        System.out.println("Print range 7 to 14");
+        printRange(eight, 7, 14);
 
         System.out.println();
-        insert(eight, 19);
-        System.out.println("Minimum value " + minimumValue(eight));
-        System.out.println("Maximum value " + maximumValue(eight));
+        System.out.println("Print range -1 to 5");
+        printRange(eight, -1, 5);
 
+        System.out.println();
+        System.out.println("Print range -1 to 5");
+        printRange(eight, -100, 50);
     }
 }
