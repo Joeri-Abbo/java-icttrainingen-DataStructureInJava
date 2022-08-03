@@ -86,6 +86,27 @@ public class Main {
 
     }
 
+    public static Integer minimumValue(Node<Integer> root) {
+        int minValue = Integer.MAX_VALUE;
+        while (root != null) {
+            minValue = root.getData();
+            System.out.println("Currently at node:" + minValue + " going into the left subtree");
+            root = root.getLeftChild();
+        }
+
+        return minValue;
+    }
+    public static Integer maximumValue(Node<Integer> root) {
+        int maxValue = Integer.MAX_VALUE;
+        while (root != null) {
+            maxValue = root.getData();
+            System.out.println("Currently at node:" + maxValue + " going into the right subtree");
+            root = root.getRightChild();
+        }
+
+        return maxValue;
+    }
+
     public static void main(String[] args) {
 
         Node<Integer> eight = new Node<>(8);
@@ -99,17 +120,22 @@ public class Main {
         insert(eight, 7);
         insert(eight, 13);
 
-        System.out.println();
-        breadthFirst(eight);
+        System.out.println("Minimum value " + minimumValue(eight));
+        System.out.println("Maximum value " + maximumValue(eight));
 
         System.out.println();
         System.out.println("In order");
         inOrder(eight);
 
         System.out.println();
-        System.out.println(lookup(eight, 4));
+        insert(eight, -10);
+        System.out.println("Minimum value " + minimumValue(eight));
+        System.out.println("Maximum value " + maximumValue(eight));
 
         System.out.println();
-        System.out.println(lookup(eight, 15));
+        insert(eight, 19);
+        System.out.println("Minimum value " + minimumValue(eight));
+        System.out.println("Maximum value " + maximumValue(eight));
+
     }
 }
