@@ -273,36 +273,52 @@ public class Main {
         }
     }
 
+    public static boolean isBinarySearchTree(Node<Integer> root) {
+        if (root == null) {
+            return true;
+        }
+
+        if (root.getLeftChild() != null) {
+            if (root.getLeftChild().getData() > root.getData()) {
+                return false;
+            }
+        }
+
+        if (root.getRightChild() != null) {
+            if (root.getRightChild().getData() <= root.getData()) {
+                return false;
+            }
+        }
+
+        return isBinarySearchTree(root.getLeftChild()) && isBinarySearchTree(root.getRightChild());
+    }
+
     public static void main(String[] args) {
 
-        Node<Integer> eight = new Node<>(8);
+       Node<Integer> one = new Node<>(1);
+       Node<Integer> two = new Node<>(2);
+       Node<Integer> three = new Node<>(3);
+       Node<Integer> four = new Node<>(4);
+       Node<Integer> five = new Node<>(5);
+       Node<Integer> six = new Node<>(6);
+       Node<Integer> seven = new Node<>(7);
+       Node<Integer> eight = new Node<>(8);
 
-        insert(eight, 3);
-        insert(eight, 10);
-        insert(eight, 1);
-        insert(eight, 14);
-        insert(eight, 6);
-        insert(eight, 4);
-        insert(eight, 7);
-        insert(eight, 13);
-        insert(eight, -10);
-        insert(eight, 19);
-        insert(eight, 22);
+       one.setLeftChild(two);
+       one.setRightChild(three);
 
-        System.out.println();
-        System.out.println("In order");
-        inOrder(eight);
+       three.setLeftChild(seven);
+       three.setRightChild(six);
 
-        System.out.println();
-        System.out.println("Print range 7 to 14");
-        printRange(eight, 7, 14);
+       seven.setLeftChild(eight);
 
-        System.out.println();
-        System.out.println("Print range -1 to 5");
-        printRange(eight, -1, 5);
+       six.setLeftChild(five);
+       six.setRightChild(four);
 
-        System.out.println();
-        System.out.println("Print range -1 to 5");
-        printRange(eight, -100, 50);
+       System.out.println("in order");
+       inOrder(one);
+
+       System.out.println("\n");
+       System.out.println("isBinarySearchTree : " + isBinarySearchTree(one));
     }
 }
