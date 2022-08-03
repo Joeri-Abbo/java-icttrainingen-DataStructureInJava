@@ -1,36 +1,36 @@
 package com.skillsoft.datastructures;
 
-public class Node<T> {
-    private T data;
-    private Node<T> leftChild;
-    private Node<T> rightChild;
+public class Node<Integer> {
+    private int data;
+    private Node<Integer> leftChild;
+    private Node<Integer> rightChild;
 
-    public Node(T data) {
+    public Node(int data) {
         this.data = data;
     }
 
-    public T getData() {
+    public int getData() {
         return data;
     }
 
-    public Node<T> getLeftChild() {
+    public Node<Integer> getLeftChild() {
         return leftChild;
     }
 
-    public void setLeftChild(Node<T> leftChild) {
+    public void setLeftChild(Node<Integer> leftChild) {
         this.leftChild = leftChild;
     }
 
-    public Node<T> getRightChild() {
+    public Node<Integer> getRightChild() {
         return rightChild;
     }
 
-    public void setRightChild(Node<T> rightChild) {
+    public void setRightChild(Node<Integer> rightChild) {
         this.rightChild = rightChild;
     }
 
     @Override
     public String toString() {
-        return data.toString();
+        return String.valueOf(data);
     }
 }
