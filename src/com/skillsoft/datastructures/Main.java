@@ -1,5 +1,6 @@
 package com.skillsoft.datastructures;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Queue;
 import java.util.LinkedList;
@@ -293,32 +294,33 @@ public class Main {
         return isBinarySearchTree(root.getLeftChild()) && isBinarySearchTree(root.getRightChild());
     }
 
+    public static void swap(int[] list, int iIndex, int JIndex) {
+        int temp = list[iIndex];
+        list[iIndex] = list[JIndex];
+        list[JIndex] = temp;
+    }
+
+    public static void selectionSort(int[] listToSort) {
+        for (int i = 0; i < listToSort.length; i++) {
+            System.out.println();
+            System.out.println("i : " + i);
+            for (int j = i + 1; j < listToSort.length; j++) {
+                if (listToSort[i] > listToSort[j]) {
+                    swap(listToSort, i, j);
+                    System.out.print("Swapping : " + i + " with " + j);
+
+                    System.out.println(Arrays.toString(listToSort));
+                }
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
+        int[] unsortedList = new int[]{10, 20, 40, 30, 50, 70, 60, 80, 90, 100};
 
-       Node<Integer> one = new Node<>(1);
-       Node<Integer> two = new Node<>(2);
-       Node<Integer> three = new Node<>(3);
-       Node<Integer> four = new Node<>(4);
-       Node<Integer> five = new Node<>(5);
-       Node<Integer> six = new Node<>(6);
-       Node<Integer> seven = new Node<>(7);
-       Node<Integer> eight = new Node<>(8);
+        System.out.println("Unsorted List : " + Arrays.toString(unsortedList));
 
-       one.setLeftChild(two);
-       one.setRightChild(three);
-
-       three.setLeftChild(seven);
-       three.setRightChild(six);
-
-       seven.setLeftChild(eight);
-
-       six.setLeftChild(five);
-       six.setRightChild(four);
-
-       System.out.println("in order");
-       inOrder(one);
-
-       System.out.println("\n");
-       System.out.println("isBinarySearchTree : " + isBinarySearchTree(one));
+        selectionSort(unsortedList);
     }
 }
