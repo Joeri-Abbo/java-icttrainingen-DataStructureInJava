@@ -316,11 +316,26 @@ public class Main {
 
     }
 
+    public static void bubbleSort(int[] listToSort) {
+        for (int i = listToSort.length - 1; i > 0; i--) {
+            System.out.println();
+            System.out.println("i : " + i);
+            for (int j = 0; j < i; j++) {
+                if (listToSort[j] > listToSort[j + 1]) {
+                    swap(listToSort, j, j + 1);
+                    System.out.print("Swapping : " + j + " with " + (j + 1));
+
+                    System.out.println(Arrays.toString(listToSort));
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        int[] unsortedList = new int[]{10, 20, 40, 30, 50, 70, 60, 80, 90, 100};
+        int[] unsortedList = new int[]{40, 50, 60, 20, 10, 70, 100, 30, 80, 90};
 
         System.out.println("Unsorted List : " + Arrays.toString(unsortedList));
 
-        selectionSort(unsortedList);
+        bubbleSort(unsortedList);
     }
 }
