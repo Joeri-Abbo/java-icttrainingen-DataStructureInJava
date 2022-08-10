@@ -318,15 +318,21 @@ public class Main {
 
     public static void bubbleSort(int[] listToSort) {
         for (int i = listToSort.length - 1; i > 0; i--) {
+            boolean swapped = false;
+
             System.out.println();
             System.out.println("i : " + i);
             for (int j = 0; j < i; j++) {
                 if (listToSort[j] > listToSort[j + 1]) {
                     swap(listToSort, j, j + 1);
+                    swapped = true;
                     System.out.print("Swapping : " + j + " with " + (j + 1));
 
                     System.out.println(Arrays.toString(listToSort));
                 }
+            }
+            if (!swapped) {
+                break;
             }
         }
     }
