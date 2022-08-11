@@ -294,7 +294,13 @@ public class Main {
         return isBinarySearchTree(root.getLeftChild()) && isBinarySearchTree(root.getRightChild());
     }
 
-    public static void swap(int[] list, int iIndex, int JIndex) {
+    public static void swap(String[] list, int iIndex, int JIndex) {
+        String temp = list[iIndex];
+        list[iIndex] = list[JIndex];
+        list[JIndex] = temp;
+    }
+
+    public static void swapInt(int[] list, int iIndex, int JIndex) {
         int temp = list[iIndex];
         list[iIndex] = list[JIndex];
         list[JIndex] = temp;
@@ -306,7 +312,7 @@ public class Main {
             System.out.println("i : " + i);
             for (int j = i + 1; j < listToSort.length; j++) {
                 if (listToSort[i] > listToSort[j]) {
-                    swap(listToSort, i, j);
+                    swapInt(listToSort, i, j);
                     System.out.print("Swapping : " + i + " with " + j);
 
                     System.out.println(Arrays.toString(listToSort));
@@ -324,7 +330,7 @@ public class Main {
             System.out.println("i : " + i);
             for (int j = 0; j < i; j++) {
                 if (listToSort[j] > listToSort[j + 1]) {
-                    swap(listToSort, j, j + 1);
+                    swapInt(listToSort, j, j + 1);
                     swapped = true;
                     System.out.print("Swapping : " + j + " with " + (j + 1));
 
@@ -343,7 +349,7 @@ public class Main {
             System.out.println("i : " + i + " increment : " + increment);
             for (int j = i + increment; j - increment >= 0; j = j - increment) {
                 if (listToSort[j] < listToSort[j - increment]) {
-                    swap(listToSort, j, j - increment);
+                    swapInt(listToSort, j, j - increment);
                     System.out.print("Swapping : " + j + " and " + (j - 1));
 
                     System.out.println(Arrays.toString(listToSort));
@@ -382,8 +388,7 @@ public class Main {
         int firstHalfIndex = 0;
         int secondHalfIndex = 0;
 
-        while (firstHalfIndex < listFirstHalf.length &&
-                secondHalfIndex < listSecondHalf.length) {
+        while (firstHalfIndex < listFirstHalf.length && secondHalfIndex < listSecondHalf.length) {
 
             if (listFirstHalf[firstHalfIndex].compareTo(listSecondHalf[secondHalfIndex]) < 0) {
 
@@ -427,6 +432,53 @@ public class Main {
         System.out.println("Merged : " + Arrays.toString(listToSort));
     }
 
+    public static int partition(String[] listToSort, int low, int high) {
+        String pivot = listToSort[low];
+        int l = low;
+        int h = high;
+
+        System.out.println();
+        System.out.println("Pivit : " + pivot);
+
+        while (l < h) {
+            while (listToSort[l].compareTo(pivot) <= 0 && l < h) {
+                l++;
+            }
+
+            while (listToSort[h].compareTo(pivot) > 0) {
+                h--;
+            }
+
+            if (l < h) {
+                swap(listToSort, l, h);
+
+                System.out.println("Swapping" + l + " and " + h);
+                System.out.println(Arrays.toString(listToSort));
+            }
+        }
+
+        swap(listToSort, low, h);
+
+        System.out.println("Swapping" + low + " and " + h);
+        System.out.println(Arrays.toString(listToSort));
+
+        System.out.println();
+        System.out.println("Partitioned : " + Arrays.toString(listToSort) + "Around pivot: " + pivot);
+
+        return h;
+    }
+
+    public static void quickSort(String[] listToSort, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+
+        int pivotIndex = partition(listToSort, low, high);
+
+        quickSort(listToSort, low, pivotIndex - 1);
+        quickSort(listToSort, pivotIndex + 1, high);
+    }
+
     public static void main(String[] args) {
         String[] unsortedList = new String[]{"iona", "Dora",
                 "Alex", "Jeff",
@@ -434,8 +486,12 @@ public class Main {
                 "Gerald", "Ben",
                 "Harry", "Carl"};
 
-        System.out.println("Unsorted List : " + Arrays.toString(unsortedList));
+        System.out.println(Arrays.toString(unsortedList));
 
-        mergeSort(unsortedList);
+        quickSort(unsortedList, 0, unsortedList.length - 1);
+
+        System.out.println();
+        System.out.println(Arrays.toString(unsortedList));
+
     }
 }
