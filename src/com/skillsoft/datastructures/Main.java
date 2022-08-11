@@ -363,6 +363,43 @@ public class Main {
         }
     }
 
+    public static void split(String[] listToSort, String[] listFirstHalf, String[] listSecondHalf) {
+        int secondHalfIndex = listFirstHalf.length;
+
+        for (int index = 0; index < listToSort.length; index++) {
+            if (index < secondHalfIndex) {
+
+                listFirstHalf[index] = listToSort[index];
+            } else {
+                listSecondHalf[index - secondHalfIndex] = listToSort[index];
+            }
+        }
+    }
+
+    public static void merge(String[] listToSort, String[] listFirstHalf, String[] listSecondHalf) {
+        int mergeIndex = 0;
+
+        int firstHalfIndex = 0;
+        int secondHalfIndex = 0;
+
+        while (firstHalfIndex < listFirstHalf.length && secondHalfIndex < listSecondHalf.length) {
+            if (listFirstHalf[firstHalfIndex].compareTo(listSecondHalf[secondHalfIndex]) < 0) {
+                listToSort[mergeIndex] = listFirstHalf[firstHalfIndex];
+                firstHalfIndex++;
+            } else if (secondHalfIndex < listSecondHalf.length) {
+                listToSort[mergeIndex] = listSecondHalf[secondHalfIndex];
+                secondHalfIndex++;
+            }
+            mergeIndex++;
+        }
+
+        if (firstHalfIndex < listFirstHalf.length) {
+            while (mergeIndex < listToSort.length) {
+                listToSort[mergeIndex++] = listSecondHalf[secondHalfIndex++];
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int[] unsortedList = new int[]{40, 50, 60, 20, 10, 70, 100, 30, 80, 90};
 
