@@ -364,14 +364,14 @@ public class Main {
     }
 
     public static void split(String[] listToSort, String[] listFirstHalf, String[] listSecondHalf) {
-        int secondHalfIndex = listFirstHalf.length;
+        int secondHalfStartIndex = listFirstHalf.length;
 
         for (int index = 0; index < listToSort.length; index++) {
-            if (index < secondHalfIndex) {
+            if (index < secondHalfStartIndex) {
 
                 listFirstHalf[index] = listToSort[index];
             } else {
-                listSecondHalf[index - secondHalfIndex] = listToSort[index];
+                listSecondHalf[index - secondHalfStartIndex] = listToSort[index];
             }
         }
     }
@@ -382,8 +382,11 @@ public class Main {
         int firstHalfIndex = 0;
         int secondHalfIndex = 0;
 
-        while (firstHalfIndex < listFirstHalf.length && secondHalfIndex < listSecondHalf.length) {
+        while (firstHalfIndex < listFirstHalf.length &&
+                secondHalfIndex < listSecondHalf.length) {
+
             if (listFirstHalf[firstHalfIndex].compareTo(listSecondHalf[secondHalfIndex]) < 0) {
+
                 listToSort[mergeIndex] = listFirstHalf[firstHalfIndex];
                 firstHalfIndex++;
             } else if (secondHalfIndex < listSecondHalf.length) {
@@ -395,16 +398,44 @@ public class Main {
 
         if (firstHalfIndex < listFirstHalf.length) {
             while (mergeIndex < listToSort.length) {
-                listToSort[mergeIndex++] = listSecondHalf[secondHalfIndex++];
+                listToSort[mergeIndex++] = listFirstHalf[firstHalfIndex++];
             }
         }
     }
 
+    public static void mergeSort(String[] listToSort) {
+        if (listToSort.length == 1) {
+            return;
+        }
+
+        int midIndex = listToSort.length / 2 + listToSort.length % 2;
+
+        String[] listFirstHalf = new String[midIndex];
+        String[] listSecondHalf = new String[listToSort.length - midIndex];
+
+        split(listToSort, listFirstHalf, listSecondHalf);
+
+        System.out.println();
+        System.out.println("Split : " + Arrays.toString(listFirstHalf) + "     " + Arrays.toString(listSecondHalf));
+
+        mergeSort(listFirstHalf);
+        mergeSort(listSecondHalf);
+
+        merge(listToSort, listFirstHalf, listSecondHalf);
+
+        System.out.println();
+        System.out.println("Merged : " + Arrays.toString(listToSort));
+    }
+
     public static void main(String[] args) {
-        int[] unsortedList = new int[]{40, 50, 60, 20, 10, 70, 100, 30, 80, 90};
+        String[] unsortedList = new String[]{"iona", "Dora",
+                "Alex", "Jeff",
+                "Elise", "Irene",
+                "Gerald", "Ben",
+                "Harry", "Carl"};
 
         System.out.println("Unsorted List : " + Arrays.toString(unsortedList));
 
-        shellSort(unsortedList);
+        mergeSort(unsortedList);
     }
 }
