@@ -479,8 +479,20 @@ public class Main {
         quickSort(listToSort, pivotIndex + 1, high);
     }
 
+    public static int linearSearch(String[] listToSearch, String element) {
+        System.out.println();
+        System.out.print("Searching for : " + element + ": ");
+        for (int i = 0; i < listToSearch.length; i++) {
+            System.out.print(i + " ");
+            if (listToSearch[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
-        String[] unsortedList = new String[]{"iona", "Dora",
+        String[] unsortedList = new String[]{"Nora", "Dora",
                 "Alex", "Jeff",
                 "Elise", "Irene",
                 "Gerald", "Ben",
@@ -488,10 +500,11 @@ public class Main {
 
         System.out.println(Arrays.toString(unsortedList));
 
-        quickSort(unsortedList, 0, unsortedList.length - 1);
-
         System.out.println();
-        System.out.println(Arrays.toString(unsortedList));
+        System.out.print("Element index: " + linearSearch(unsortedList, "Harry"));
+        System.out.print("Element index: " + linearSearch(unsortedList, "Jeff"));
+        System.out.print("Element index: " + linearSearch(unsortedList, "Nora"));
+        System.out.print("Element index: " + linearSearch(unsortedList, "Zoe"));
 
     }
 }

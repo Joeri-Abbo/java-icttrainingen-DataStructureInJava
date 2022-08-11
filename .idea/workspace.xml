@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4552f31-5887-45cf-846a-ecb1f9a28fd5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/skillsoft/datastructures/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/skillsoft/datastructures/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,6 +85,11 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="76f5cc23-d954-4066-98c9-5cc19219a50b">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -101,6 +107,11 @@
             </State>
           </value>
         </entry>
+      </map>
+    </option>
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="76f5cc23-d954-4066-98c9-5cc19219a50b" value="TOOL_WINDOW" />
       </map>
     </option>
   </component>
