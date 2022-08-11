@@ -337,13 +337,13 @@ public class Main {
         }
     }
 
-    public static void insertionSort(int[] listToSort) {
-        for (int i = 0; i < listToSort.length - 1; i++) {
+    public static void insertionSort(int[] listToSort, int increment) {
+        for (int i = 0; i + increment < listToSort.length; i = i + 1) {
             System.out.println();
-            System.out.println("i : " + i);
-            for (int j = i + 1;j > 0; j--) {
-                if (listToSort[j] < listToSort[j - 1]) {
-                    swap(listToSort, j, j - 1);
+            System.out.println("i : " + i + " increment : " + increment);
+            for (int j = i + increment; j - increment >= 0; j = j - increment) {
+                if (listToSort[j] < listToSort[j - increment]) {
+                    swap(listToSort, j, j - increment);
                     System.out.print("Swapping : " + j + " and " + (j - 1));
 
                     System.out.println(Arrays.toString(listToSort));
@@ -354,11 +354,20 @@ public class Main {
         }
     }
 
+    public static void shellSort(int[] listToSort) {
+        int increment = listToSort.length / 2;
+
+        while (increment >= 1) {
+            insertionSort(listToSort, increment);
+            increment = increment / 2;
+        }
+    }
+
     public static void main(String[] args) {
         int[] unsortedList = new int[]{40, 50, 60, 20, 10, 70, 100, 30, 80, 90};
 
         System.out.println("Unsorted List : " + Arrays.toString(unsortedList));
 
-        insertionSort(unsortedList);
+        shellSort(unsortedList);
     }
 }
