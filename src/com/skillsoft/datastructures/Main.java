@@ -531,16 +531,45 @@ public class Main {
         }
     }
 
+    public static int jumpSearch(String[] list, String element, int jumpLength) {
+        System.out.println();
+        System.out.println("Searching for... " + element + ": ");
+
+        int i = 0;
+        while (list[i].compareTo(element) <= 0) {
+            System.out.println("Element is greater than or equal to: " + list[i] + " ");
+            i += jumpLength;
+            if (i >= list.length) {
+                break;
+            }
+        }
+
+        int startIndex = i - jumpLength;
+        int endIndex = Math.min(i, list.length);
+        System.out.println("Looking between : " + startIndex + " End: " + endIndex);
+
+        for (int j = startIndex; j < endIndex; j++) {
+            if (list[j].equals(element)) {
+                return j;
+            }
+        }
+
+        return -1;
+    }
+
     public static void main(String[] args) {
-        String[] unsortedList = new String[]{"Alex", "Ben", "Carl", "Dora", "Elise", "Fiona", "Gerald", "Harry", "Irene", "Jeff", "Kris", "Lewis", "Mary", "Nora", "Ophelia", "Peter"};
+        String[] sortedList = new String[]{"Alex", "Ben", "Carl", "Dora", "Elise", "Fiona", "Gerald", "Harry", "Irene", "Jeff", "Kris", "Lewis", "Mary", "Nora", "Ophelia", "Peter"};
 
-        System.out.println(Arrays.toString(unsortedList));
+        System.out.println(Arrays.toString(sortedList));
 
-        int low = 0;
-        int high = unsortedList.length - 1;
         System.out.println();
 
-        System.out.print("Element index: " + binarySearch(unsortedList, "Gerald", low, high));
+        int jumpLength = (int) Math.sqrt(sortedList.length);
+
+        System.out.print("Element index: " + jumpSearch(sortedList, "Gerald", jumpLength));
+        System.out.print("Element index: " + jumpSearch(sortedList, "Mary", jumpLength));
+        System.out.print("Element index: " + jumpSearch(sortedList, "Ophelia", jumpLength));
+        System.out.print("Element index: " + jumpSearch(sortedList, "Zoe", jumpLength));
 
     }
 }
