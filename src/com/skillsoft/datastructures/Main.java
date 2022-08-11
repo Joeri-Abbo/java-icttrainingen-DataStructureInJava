@@ -491,20 +491,56 @@ public class Main {
         return -1;
     }
 
+//    public static int binarySearch(String[] list, String element) {
+//        System.out.println();
+//        System.out.print("Searching for : " + element + ": ");
+//
+//        int low = 0;
+//        int high = list.length - 1;
+//
+//        while (low <= high) {
+//            int mid = (low + high) / 2;
+//            System.out.println("Low : " + low + " High : " + high + " Mid element : " + list[mid]);
+//
+//            if (list[mid].equals(element)) {
+//                return mid;
+//            } else if (list[mid].compareTo(element) < 0) {
+//                low = mid + 1;
+//            } else {
+//                high = mid - 1;
+//            }
+//        }
+//
+//        return -1;
+//    }
+
+    public static int binarySearch(String[] list, String element, int low, int high) {
+        System.out.println();
+        System.out.print("Searching for : " + element + ": ");
+
+
+        int mid = (low + high) / 2;
+        System.out.println("Low : " + low + " High : " + high + " Mid element : " + mid);
+
+        if (list[mid].equals(element)) {
+            return mid;
+        } else if (list[mid].compareTo(element) < 0) {
+            return binarySearch(list, element, mid + 1, high);
+        } else {
+            return binarySearch(list, element, low, mid - 1);
+        }
+    }
+
     public static void main(String[] args) {
-        String[] unsortedList = new String[]{"Nora", "Dora",
-                "Alex", "Jeff",
-                "Elise", "Irene",
-                "Gerald", "Ben",
-                "Harry", "Carl"};
+        String[] unsortedList = new String[]{"Alex", "Ben", "Carl", "Dora", "Elise", "Fiona", "Gerald", "Harry", "Irene", "Jeff", "Kris", "Lewis", "Mary", "Nora", "Ophelia", "Peter"};
 
         System.out.println(Arrays.toString(unsortedList));
 
+        int low = 0;
+        int high = unsortedList.length - 1;
         System.out.println();
-        System.out.print("Element index: " + linearSearch(unsortedList, "Harry"));
-        System.out.print("Element index: " + linearSearch(unsortedList, "Jeff"));
-        System.out.print("Element index: " + linearSearch(unsortedList, "Nora"));
-        System.out.print("Element index: " + linearSearch(unsortedList, "Zoe"));
+
+        System.out.print("Element index: " + binarySearch(unsortedList, "Gerald", low, high));
 
     }
 }
