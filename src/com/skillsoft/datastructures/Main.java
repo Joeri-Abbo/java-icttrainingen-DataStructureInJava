@@ -579,30 +579,81 @@ public class Main {
         return -1;
     }
 
+    private static int getParentIndex(int index, int endIndex) {
+        if (index < 0 || index > endIndex) {
+            return -1;
+        }
+
+        return (index - 1) / 2;
+    }
+
+    private static int getLeftChildIndex(int index, int endIndex) {
+
+        int leftChildIndex = 2 * index + 1;
+        if (leftChildIndex > endIndex) {
+            return -1;
+        }
+
+        return leftChildIndex;
+    }
+
+    private static int getRightChildIndex(int index, int endIndex) {
+
+        int rightChildIndex = 2 * index + 2;
+        if (rightChildIndex > endIndex) {
+            return -1;
+        }
+
+        return rightChildIndex;
+    }
+
+    private static void percolateDown(int[] array, int index, int endIndex) {
+
+        System.out.println("Percolating down from index: " + array[index]);
+
+        int leftChildIndex = getLeftChildIndex(index, endIndex);
+        int rightChildIndex = getRightChildIndex(index, endIndex);
+
+        //Note Find the larger of the left and right child elements
+        int largerIndex = -1;
+
+        if (leftChildIndex != -1 && rightChildIndex != -1) {
+            largerIndex = array[leftChildIndex] > array[rightChildIndex] ? leftChildIndex : rightChildIndex;
+        } else if (leftChildIndex != -1) {
+            largerIndex = leftChildIndex;
+
+        } else if (rightChildIndex != -1) {
+            largerIndex = rightChildIndex;
+        }
+
+        if (largerIndex == -1) {
+            System.out.println("Larger child:" + array[largerIndex]);
+        }
+        if (array[largerIndex] > array[index]) {
+            swapInt(array, largerIndex, index);
+            System.out.println("Swap :" + Arrays.toString(array));
+            percolateDown(array, index, endIndex);
+        }
+    }
+
+    public static void heapify(int[] array, int endIndex) {
+        int index = getParentIndex(endIndex, endIndex);
+
+        System.out.println("Child:" + array[endIndex]);
+        System.out.println("Parent:" + array[index]);
+
+        while (index != 0) {
+            System.out.println();
+            System.out.println("Percolating index: " + index + " array: " + Arrays.toString(array));
+            percolateDown(array, index, endIndex);
+            index--;
+        }
+    }
+
     public static void main(String[] args) throws HeapFullException, HeapEmptyException {
-
-        MinHeap<Integer> minHeap = new MinHeap<>(Integer.class);
-
-        minHeap.insert(9);
-        minHeap.insert(4);
-        minHeap.insert(17);
-        minHeap.insert(6);
-        minHeap.insert(100);
-        minHeap.insert(3);
-        minHeap.insert(13);
-        minHeap.insert(23);
-        System.out.println(minHeap);
-
-        System.out.println("_________________________________________");
-
-        System.out.println();
-        System.out.println(minHeap);
-        System.out.println("Highest : " + minHeap.getHighestPriority());
-
-        System.out.println();
-        System.out.println(minHeap);
-        minHeap.removeHighestPriority();
-
+        int[] array = {4, 6, 9, 2, 10, 56, 12, 5, 1, 17, 14};
+        System.out.println(Arrays.toString(array));
+        heapify(array, array.length - 1);
 
     }
 }
