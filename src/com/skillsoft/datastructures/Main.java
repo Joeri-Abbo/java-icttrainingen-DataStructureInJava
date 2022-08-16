@@ -581,39 +581,28 @@ public class Main {
 
     public static void main(String[] args) throws HeapFullException, HeapEmptyException {
 
-        MaxHeap<Integer> maxHeap = new MaxHeap<>(Integer.class);
-//
-//        maxHeap.insert(9);
-//        System.out.println(maxHeap);
-//
-//        System.out.println();
-//        maxHeap.insert(4);
-//        System.out.println(maxHeap);
-//
-//        System.out.println();
-//        maxHeap.insert(17);
-//        System.out.println(maxHeap);
-//
-//        System.out.println();
-//        maxHeap.insert(6);
-//        System.out.println(maxHeap);
-//
-//        System.out.println();
-//        maxHeap.insert(100);
-//        System.out.println(maxHeap);
+        MinHeap<Integer> minHeap = new MinHeap<>(Integer.class);
 
-        maxHeap.insert(9);
-        maxHeap.insert(4);
-        maxHeap.insert(17);
-        maxHeap.insert(6);
-        maxHeap.insert(100);
-        maxHeap.insert(144);
-        maxHeap.insert(47);
-        maxHeap.insert(247);
-        System.out.println(maxHeap);
-        System.out.println("________________________________________________");
+        minHeap.insert(9);
+        minHeap.insert(4);
+        minHeap.insert(17);
+        minHeap.insert(6);
+        minHeap.insert(100);
+        minHeap.insert(3);
+        minHeap.insert(13);
+        minHeap.insert(23);
+        System.out.println(minHeap);
 
-        System.out.println(maxHeap);
-        System.out.println("Highest: " + maxHeap.removeHighestPriority());
+        System.out.println("_________________________________________");
+
+        System.out.println();
+        System.out.println(minHeap);
+        System.out.println("Highest : " + minHeap.getHighestPriority());
+
+        System.out.println();
+        System.out.println(minHeap);
+        minHeap.removeHighestPriority();
+
+
     }
 }
