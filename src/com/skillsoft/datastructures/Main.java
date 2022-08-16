@@ -627,7 +627,8 @@ public class Main {
         }
 
         if (largerIndex == -1) {
-            System.out.println("Larger child:" + array[largerIndex]);
+            System.out.println("Stop percolating down");
+            return;
         }
         if (array[largerIndex] > array[index]) {
             swapInt(array, largerIndex, index);
@@ -650,10 +651,34 @@ public class Main {
         }
     }
 
+    public static void heapsort(int[] array) {
+        heapify(array, array.length - 1);
+        System.out.println("____________________________________");
+
+        int endIndex = array.length - 1;
+
+        while (endIndex > 0) {
+            System.out.println();
+            System.out.println("End of heap: " + array[endIndex] + " array: " + Arrays.toString(array));
+
+            System.out.println();
+            System.out.println("Move " + array[0] + " to end of array");
+
+            swapInt(array, 0, endIndex);
+            System.out.println();
+            System.out.println("After swap: " + Arrays.toString(array));
+
+            endIndex--;
+
+            percolateDown(array, 0, endIndex);
+        }
+    }
+
     public static void main(String[] args) throws HeapFullException, HeapEmptyException {
         int[] array = {4, 6, 9, 2, 10, 56, 12, 5, 1, 17, 14};
         System.out.println(Arrays.toString(array));
-        heapify(array, array.length - 1);
+        heapsort(array);
+        System.out.println(Arrays.toString(array));
 
     }
 }
