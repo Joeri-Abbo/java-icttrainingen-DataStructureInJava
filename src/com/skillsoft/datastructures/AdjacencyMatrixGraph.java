@@ -26,6 +26,12 @@ public class AdjacencyMatrixGraph implements Graph {
     }
 
     @Override
+    public int getWeightedEdge(int currentVertex, Integer neighbor) {
+//        possible solution because course misses this function
+        return currentVertex + neighbor;
+    }
+
+    @Override
     public void addEdge(int v1, int v2) {
         addEdge(v1, v2, 1);
     }

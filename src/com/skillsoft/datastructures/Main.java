@@ -8,6 +8,8 @@ import java.util.Stack;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.Queue;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 public class Main {
 
@@ -746,36 +748,60 @@ public class Main {
 
     private static Map<Integer, DistanceEntry> buildDistanceTable(Graph graph, int source) {
         Map<Integer, DistanceEntry> distanceTable = new HashMap<>();
+
+        PriorityQueue<VertexInfo> queue = new PriorityQueue<>(new Comparator<VertexInfo>() {
+            @Override
+            public int compare(VertexInfo v1, VertexInfo v2) {
+                return ((Integer) v1.getDistance()).compareTo(v2.getDistance());
+            }
+        });
+
         for (int j = 0; j < graph.getNumVertices(); j++) {
             distanceTable.put(j, new DistanceEntry());
         }
+
         distanceTable.get(source).setDistance(0);
         distanceTable.get(source).setLastVertex(source);
 
-        LinkedList<Integer> queue = new LinkedList<>();
-        queue.add(source);
+        VertexInfo sourceVertexInfo = new VertexInfo(source, 0);
+        queue.add(sourceVertexInfo);
+
+        Map<Integer, VertexInfo> vertexInfoMap = new HashMap<>();
+        vertexInfoMap.put(source, sourceVertexInfo);
 
         while (!queue.isEmpty()) {
-            int currentVertex = queue.pollFirst();
 
-            for (int i : graph.getAdjacentVertices(currentVertex)) {
-                int currentDistance = distanceTable.get(i).getDistance();
+            VertexInfo vertexInfo = queue.poll();
 
-                if (currentDistance == -1) {
-                    currentDistance = 1 + distanceTable.get(currentVertex).getDistance();
+            int currentVertex = vertexInfo.getVertexId();
 
-                    distanceTable.get(i).setDistance(currentDistance);
-                    distanceTable.get(i).setLastVertex(currentVertex);
+            for (Integer neighbor : graph.getAdjacentVertices(currentVertex)) {
 
-//                    NOTE: Enqueue the neighbor only if it has other adjacent vertices.
+                // NOTE: Get the new distance, account for the weighted edge.
+                int distance = distanceTable.get(currentVertex).getDistance() + graph.getWeightedEdge(currentVertex, neighbor);
 
-                    if (!graph.getAdjacentVertices(i).isEmpty()) {
-                        queue.add(i);
+                // NOTE: If we find a new shortest path to the neighbor update the distance and the last vertex.
+                if (distanceTable.get(neighbor).getDistance() > distance) {
+
+                    distanceTable.get(neighbor).setDistance(distance);
+                    distanceTable.get(neighbor).setLastVertex(currentVertex);
+
+                    // NOTE: We have found a new short patah to the neighbor so remove the old node from the priority queue
+                    VertexInfo neighborVertexInfo = vertexInfoMap.get(neighbor);
+
+
+                    if (neighborVertexInfo != null) {
+                        queue.remove(neighborVertexInfo);
                     }
-                }
 
+                    // NOTE: Add the neighbor back with a new updated distance.
+                    neighborVertexInfo = new VertexInfo(neighbor, distance);
+                    queue.add(neighborVertexInfo);
+                    vertexInfoMap.put(neighbor, neighborVertexInfo);
+                }
             }
         }
+
         return distanceTable;
     }
 
@@ -800,7 +826,7 @@ public class Main {
                 System.out.print(" -> " + stack.pop());
             }
             System.out.println();
-            System.out.println("Shortest path unWeighted DONE!");
+            System.out.println("Dijkstra DONE!");
         }
     }
 
@@ -808,21 +834,22 @@ public class Main {
 
         Graph graph = new AdjacencyMatrixGraph(8, Graph.GraphType.UNDIRECTED);
 
-        graph.addEdge(2, 7);
-        graph.addEdge(3, 0);
-        graph.addEdge(0, 4);
-        graph.addEdge(0, 1);
-        graph.addEdge(2, 1);
-        graph.addEdge(1, 3);
-        graph.addEdge(3, 5);
-        graph.addEdge(6, 3);
-        graph.addEdge(4, 7);
+        graph.addEdge(0, 3, 2);
+        graph.addEdge(0, 4, 2);
+        graph.addEdge(0, 1, 1);
 
-        graph.addEdge(0, 7);
+        graph.addEdge(1, 3, 2);
+
+        graph.addEdge(2, 7, 4);
+        graph.addEdge(2, 1, 3);
+
+        graph.addEdge(3, 6, 3);
+
+        graph.addEdge(4, 7, 2);
+        graph.addEdge(7, 5, 4);
 
         graph.displayGraph();
-
-        shortestPath(graph, 1, 7);
+        shortestPath(graph, 0, 5);
         System.out.println("----------------------------------------------------");
     }
 }

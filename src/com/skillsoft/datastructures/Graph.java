@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface Graph {
 
+    int getWeightedEdge(int currentVertex, Integer neighbor);
+
     enum GraphType {
         DIRECTED, UNDIRECTED
     }

@@ -6,7 +6,8 @@ public class DistanceEntry {
     private int lastVertex;
 
     public DistanceEntry() {
-        distance = -1;
+        // The initial distance to all nodes is assumed infinite
+        distance = Integer.MAX_VALUE;
         lastVertex = -1;
     }
 
