@@ -716,25 +716,66 @@ public class Main {
         return sortedList;
     }
 
+    public static List<String> order(List<String> courseList, Map<String, List<String>> prereqs) {
+        Graph courseGraph = new AdjacencyMatrixGraph(courseList.size(), Graph.GraphType.DIRECTED);
+
+        Map<String, Integer> courseIdMap = new HashMap<>();
+        Map<Integer, String> idCourseMap = new HashMap<>();
+
+        for (int i = 0; i < courseList.size(); i++) {
+            courseIdMap.put(courseList.get(i), i);
+            idCourseMap.put(i, courseList.get(i));
+        }
+
+        for (Map.Entry<String, List<String>> prereq : prereqs.entrySet()) {
+            for (String course : prereq.getValue()) {
+                courseGraph.addEdge(courseIdMap.get(prereq.getKey()), courseIdMap.get(course));
+            }
+        }
+
+        List<Integer> courseIdList = sortGraph(courseGraph);
+        List<String> courseScheduleList = new ArrayList<>();
+
+        for (int courseId : courseIdList) {
+            courseScheduleList.add(idCourseMap.get(courseId));
+        }
+        return courseScheduleList;
+    }
+
     public static void main(String[] args) throws HeapFullException, HeapEmptyException {
-        Graph graph = new AdjacencyMatrixGraph(8, Graph.GraphType.DIRECTED);
+        List<String> courses = new ArrayList<>();
+        courses.add("CS100");
+        courses.add("CS101");
+        courses.add("CS102");
+        courses.add("CS103");
+        courses.add("CS104");
+        courses.add("CS105");
+        courses.add("CS240");
 
-        graph.addEdge(2, 7);
-        graph.addEdge(0, 3);
-        graph.addEdge(0, 4);
-        graph.addEdge(0, 1);
-        graph.addEdge(2, 1);
-        graph.addEdge(1, 3);
-        graph.addEdge(3, 5);
-        graph.addEdge(3, 6);
-        graph.addEdge(4, 7);
-        graph.addEdge(7, 0);
+        Map<String, List<String>> prereqs = new HashMap<>();
+        List<String> list = new ArrayList<>();
 
-        graph.displayGraph();
+        list.add("CS101");
+        list.add("CS102");
+        list.add("CS103");
 
-        System.out.println();
+        prereqs.put("CS100", list);
+
+        list = new ArrayList<>();
+        list.add("CS104");
+        prereqs.put("CS101", list);
+
+        list = new ArrayList<>();
+        list.add("CS105");
+        prereqs.put("CS103", list);
+
+        list = new ArrayList<>();
+        list.add("CS240");
+        prereqs.put("CS102", list);
+
+        List<String> courseSchedule = order(courses, prereqs);
+        System.out.println("Valid schedule for CS students: " + courseSchedule);
         System.out.println("----------------------------------------------------");
-        System.out.println(sortGraph(graph));
         System.out.println("----------------------------------------------------");
     }
 }
