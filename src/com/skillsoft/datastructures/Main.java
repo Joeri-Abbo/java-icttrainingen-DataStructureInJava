@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.Queue;
@@ -742,40 +743,86 @@ public class Main {
         return courseScheduleList;
     }
 
+
+    private static Map<Integer, DistanceEntry> buildDistanceTable(Graph graph, int source) {
+        Map<Integer, DistanceEntry> distanceTable = new HashMap<>();
+        for (int j = 0; j < graph.getNumVertices(); j++) {
+            distanceTable.put(j, new DistanceEntry());
+        }
+        distanceTable.get(source).setDistance(0);
+        distanceTable.get(source).setLastVertex(source);
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.pollFirst();
+
+            for (int i : graph.getAdjacentVertices(currentVertex)) {
+                int currentDistance = distanceTable.get(i).getDistance();
+
+                if (currentDistance == -1) {
+                    currentDistance = 1 + distanceTable.get(currentVertex).getDistance();
+
+                    distanceTable.get(i).setDistance(currentDistance);
+                    distanceTable.get(i).setLastVertex(currentVertex);
+
+//                    NOTE: Enqueue the neighbor only if it has other adjacent vertices.
+
+                    if (!graph.getAdjacentVertices(i).isEmpty()) {
+                        queue.add(i);
+                    }
+                }
+
+            }
+        }
+        return distanceTable;
+    }
+
+    public static void shortestPath(Graph graph, int source, int destination) {
+        Map<Integer, DistanceEntry> distanceTable = buildDistanceTable(graph, source);
+
+        Stack<Integer> stack = new Stack<>();
+        stack.push(destination);
+
+        int previousVertex = distanceTable.get(destination).getLastVertex();
+
+        while (previousVertex != -1 && previousVertex != source) {
+            stack.push(previousVertex);
+            previousVertex = distanceTable.get(previousVertex).getLastVertex();
+        }
+
+        if (previousVertex == -1) {
+            System.out.println("There is no path from node: " + source + " no node: " + destination);
+        } else {
+            System.out.print("The shortest path is: " + source);
+            while (!stack.isEmpty()) {
+                System.out.print(" -> " + stack.pop());
+            }
+            System.out.println();
+            System.out.println("Shortest path unWeighted DONE!");
+        }
+    }
+
     public static void main(String[] args) throws HeapFullException, HeapEmptyException {
-        List<String> courses = new ArrayList<>();
-        courses.add("CS100");
-        courses.add("CS101");
-        courses.add("CS102");
-        courses.add("CS103");
-        courses.add("CS104");
-        courses.add("CS105");
-        courses.add("CS240");
 
-        Map<String, List<String>> prereqs = new HashMap<>();
-        List<String> list = new ArrayList<>();
+        Graph graph = new AdjacencyMatrixGraph(8, Graph.GraphType.UNDIRECTED);
 
-        list.add("CS101");
-        list.add("CS102");
-        list.add("CS103");
+        graph.addEdge(2, 7);
+        graph.addEdge(3, 0);
+        graph.addEdge(0, 4);
+        graph.addEdge(0, 1);
+        graph.addEdge(2, 1);
+        graph.addEdge(1, 3);
+        graph.addEdge(3, 5);
+        graph.addEdge(6, 3);
+        graph.addEdge(4, 7);
 
-        prereqs.put("CS100", list);
+        graph.addEdge(0, 7);
 
-        list = new ArrayList<>();
-        list.add("CS104");
-        prereqs.put("CS101", list);
+        graph.displayGraph();
 
-        list = new ArrayList<>();
-        list.add("CS105");
-        prereqs.put("CS103", list);
-
-        list = new ArrayList<>();
-        list.add("CS240");
-        prereqs.put("CS102", list);
-
-        List<String> courseSchedule = order(courses, prereqs);
-        System.out.println("Valid schedule for CS students: " + courseSchedule);
-        System.out.println("----------------------------------------------------");
+        shortestPath(graph, 1, 7);
         System.out.println("----------------------------------------------------");
     }
 }
