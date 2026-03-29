@@ -51,7 +51,7 @@ public abstract class Heap<T extends Comparable<T>> {
             return -1;
         }
 
-        int rightChildIndex = 2 * parentIndex + 1;
+        int rightChildIndex = 2 * parentIndex + 2;
 
         if (rightChildIndex >= count) {
             return -1;
